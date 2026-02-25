@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAMUT | Steakhouse</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #000000;
+            --white: #FFFFFF;
+            --overlay: rgba(0, 0, 0, 0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            border-radius: 0 !important;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--white);
+            color: var(--black);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* --- NAVEGACIÓN --- */
+        header {
+            position: fixed;
+            width: 100%;
+            padding: 30px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: transparent; /* Transparente sobre el carrusel */
+            z-index: 1000;
+            transition: 0.4s;
+        }
+
+        /* Cambio de color al hacer scroll */
+        header.scrolled {
+            background: var(--black);
+            padding: 20px 50px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 5px;
+            color: var(--white);
+        }
+
+        .menu-btn {
+            cursor: pointer;
+            z-index: 1001;
+            width: 30px;
+            height: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-btn span {
+            display: block;
+            width: 100%;
+            height: 1px;
+            background: var(--white);
+            transition: 0.3s;
+        }
+
+        .nav-overlay {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100vh;
+            background: var(--black);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+            z-index: 999;
+        }
+
+        .nav-overlay.active {
+            right: 0;
+        }
+
+        .nav-overlay a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 2.5rem;
+            margin: 15px 0;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* --- HERO CON CARRUSEL INTEGRADO --- */
+        .hero-carousel {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background: var(--black);
+            overflow: hidden;
+        }
+
+        .carousel-inner {
+            display: flex;
+            width: 300%;
+            height: 100%;
+            transition: transform 1.2s cubic-bezier(0.45, 0, 0.55, 1);
+        }
+
+        .carousel-item {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(100%) brightness(50%); /* Imágenes oscuras para que el texto resalte */
+        }
+
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: var(--white);
+            z-index: 10;
+            width: 100%;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(4rem, 10vw, 8rem);
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: 15px;
+        }
+
+        .hero-content p {
+            letter-spacing: 8px;
+            font-size: 0.9rem;
+            font-weight: 300;
+            margin-top: -10px;
+        }
+
+        /* --- SECCIONES --- */
+        section {
+            padding: 120px 10%;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 60px;
+            text-align: center;
+            border-bottom: 1px solid var(--black);
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        .menu-item span:last-child {
+            font-weight: 700;
+        }
+
+        /* Formularios */
+        input, textarea, button {
+            width: 100%;
+            padding: 18px;
+            margin-bottom: 25px;
+            border: 1px solid var(--black);
+            font-family: 'Montserrat', sans-serif;
+            background: transparent;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        button {
+            background: var(--black);
+            color: var(--white);
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: 400;
+            transition: 0.4s;
+        }
+
+        button:hover {
+            background: var(--white);
+            color: var(--black);
+        }
+
+        footer {
+            background: var(--black);
+            color: var(--white);
+            padding: 60px;
+            text-align: center;
+            letter-spacing: 4px;
+            font-size: 0.7rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+            header { padding: 20px; }
+            .hero-content h1 { font-size: 3.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="mainHeader">
+        <div class="logo">MAMUT</div>
+        <div class="menu-btn" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <nav class="nav-overlay" id="navOverlay">
+        <a href="#menu" onclick="toggleMenu()">MENÚ</a>
+        <a href="#reservaciones" onclick="toggleMenu()">RESERVACIONES</a>
+        <a href="#contacto" onclick="toggleMenu()">CONTACTO</a>
+    </nav>
+
+    <div class="hero-carousel">
+        <div class="hero-content">
+            <h1>MAMUT</h1>
+            <p>CORTES PRIMITIVOS — FUEGO REAL</p>
+        </div>
+        
+        <div class="carousel-inner" id="carouselInner">
+            <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1500&auto=format&fit=crop');"></div>
+            <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1558030006-450675393462?q=80&w=1500&auto=format&fit=crop');"></div>
+            <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092?q=80&w=1500&auto=format&fit=crop');"></div>
+        </div>
+    </div>
+
+    <section id="menu">
+        <div style="text-align: center;">
+            <h2 class="section-title">La Carta</h2>
+        </div>
+        <div class="grid">
+            <div>
+                <h3>Cortes de Autor</h3>
+                <div class="menu-item"><span>RIB EYE HIGH CHOICE</span> <span>$680</span></div>
+                <div class="menu-item"><span>NEW YORK DRY AGED</span> <span>$720</span></div>
+                <div class="menu-item"><span>TOMAHAWK RESERVA</span> <span>$1,450</span></div>
+            </div>
+            <div>
+                <h3>Acompañamientos</h3>
+                <div class="menu-item"><span>TUÉTANOS A LA BRASA</span> <span>$290</span></div>
+                <div class="menu-item"><span>PAPAS AL ROMERO</span> <span>$160</span></div>
+                <div class="menu-item) "><span>ENSALADA CÉSAR AHUMADA</span> <span>$210</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="reservaciones" style="background: #fafafa;">
+        <div style="text-align: center;">
+            <h2 class="section-title">Reservaciones</h2>
+        </div>
+        <div style="max-width: 500px; margin: 0 auto;">
+            <form>
+                <input type="text" placeholder="NOMBRE COMPLETO" required>
+                <input type="date" required>
+                <input type="number" placeholder="COMENSALES" required>
+                <button type="submit">Solicitar Mesa</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="contacto">
+        <div class="grid">
+            <div>
+                <h2 class="section-title">Ubicación</h2>
+                <p style="font-weight: 700;">NORTE 45, CIUDAD DE MÉXICO</p>
+                <p>LUNES A DOMINGO — 13:00 a 23:00</p>
+                <br>
+                <p>CONTACTO@MAMUTSTEAK.COM</p>
+            </div>
+            <div>
+                <h2 class="section-title">Contacto</h2>
+                <form>
+                    <input type="email" placeholder="EMAIL">
+                    <textarea placeholder="MENSAJE" rows="3"></textarea>
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        MAMUT ® — 2026 | ESTÉTICA DEL FUEGO
+    </footer>
+
+    <script>
+        // Función Menú Hamburguesa
+        function toggleMenu() {
+            document.getElementById('navOverlay').classList.toggle('active');
+        }
+
+        // Cambio de Header al hacer scroll
+        window.onscroll = function() {
+            const header = document.getElementById('mainHeader');
+            if (window.pageYOffset > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        };
+
+        // Carrusel Automático
+        let index = 0;
+        const carousel = document.getElementById('carouselInner');
+        setInterval(() => {
+            index = (index + 1) % 3;
+            carousel.style.transform = `translateX(-${index * 33.33}%)`;
+        }, 5000);
+    </script>
+</body>
+</html>
